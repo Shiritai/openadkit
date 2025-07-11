@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<profiles xmlns="http://www.eprosima.com/ Einige Beispiele/fastrtps_profiles">
+    <qos_profile name="transient_local_qos">
+        <durability>
+            <kind>TRANSIENT_LOCAL</kind>
+        </durability>
+        <reliability>
+            <kind>RELIABLE</kind>
+        </reliability>
+        <history>
+            <kind>KEEP_LAST</kind>
+            <depth>1</depth>
+        </history>
+    </qos_profile>
+
+    <topic>
+        <name>/api/operation_mode/state</name>
+        <publisher_qos>transient_local_qos</publisher_qos>
+    </topic>
+    <topic>
+        <name>/api/routing/state</name>
+        <publisher_qos>transient_local_qos</publisher_qos>
+    </topic>
+    <topic>
+        <name>/api/fail_safe/mrm_state</name>
+        <publisher_qos>transient_local_qos</publisher_qos>
+    </topic>
+    <topic>
+        <name>/api/motion/state</name>
+        <publisher_qos>transient_local_qos</publisher_qos>
+    </topic>
+    <topic>
+        <name>/api/localization/initialization_state</name>
+        <publisher_qos>transient_local_qos</publisher_qos>
+    </topic>
+</profiles>
