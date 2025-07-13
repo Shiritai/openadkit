@@ -6,6 +6,8 @@ services:
     environment:
       - RUN_MODE=planning-simulator
       - MAP_PATH=/root/autoware_map
+      - SENSOR_MODEL=sample_sensor_kit
+      - VEHICLE_MODEL=sample_vehicle
       - SCENARIO_SIMULATION=true
     networks:
       autoware_net:
@@ -22,10 +24,36 @@ services:
   visualizer:
     image: ghcr.io/autowarefoundation/openadkit:visualizer
     ports:
-      - 6080:6080
+      - "6080:6080"
+    networks:
+      visualizer_net:
+        ipv4_address: 172.21.0.2
+
+  autoware_zenoh_bridge:
+    image: eclipse/zenoh-bridge-ros2dds:latest
+    environment:
+      - ROS_DISTRO=humble
+    volumes:
+      - ./config:/config
+    command: -e tcp/172.22.0.3:7447 -c /config/zenoh-bridge-ros2dds.json5
     networks:
       autoware_net:
-        ipv4_address: 172.20.0.4
+        ipv4_address: 172.20.0.5
+      zenoh_net:
+        ipv4_address: 172.22.0.2
+
+  visualizer_zenoh_bridge:
+    image: eclipse/zenoh-bridge-ros2dds:latest
+    environment:
+      - ROS_DISTRO=humble
+    volumes:
+      - ./config:/config
+    command: -c /config/zenoh-bridge-ros2dds.json5
+    networks:
+      visualizer_net:
+        ipv4_address: 172.21.0.3
+      zenoh_net:
+        ipv4_address: 172.22.0.3
 
 volumes:
   autoware_map:
@@ -37,3 +65,15 @@ networks:
       config:
         - subnet: 172.20.0.0/16
           gateway: 172.20.0.1
+  visualizer_net:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.21.0.0/16
+          gateway: 172.21.0.1
+  zenoh_net:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.22.0.0/16
+          gateway: 172.22.0.1
