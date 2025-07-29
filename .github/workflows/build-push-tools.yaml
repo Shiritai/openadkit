@@ -6,6 +6,8 @@ on:
       - main
     paths:
       - tools
+    tags:
+      - "*.*.*"
   schedule:
     - cron: '0 21 * * *'
   workflow_dispatch:
@@ -54,13 +56,15 @@ jobs:
       - name: Free disk space
         if: ${{ steps.changed-files.outputs.any_changed == 'true' ||
           github.event_name == 'workflow_dispatch' ||
-          (github.event_name == 'push' && github.ref_type == 'tag') }}
+          github.event_name == 'schedule' ||
+          github.event_name == 'push' }}
         uses: ./.github/actions/free-disk-space
 
       - name: Build 'openadkit-tools'
         if: ${{ steps.changed-files.outputs.any_changed == 'true' ||
           github.event_name == 'workflow_dispatch' ||
-          (github.event_name == 'push' && github.ref_type == 'tag') }}
+          github.event_name == 'schedule' ||
+          github.event_name == 'push' }}
         uses: ./.github/actions/build-push-tools
         with:
           platform: ${{ matrix.platform }}
