@@ -5,7 +5,7 @@ Runs Scenario Simulator in a container.
 ## Standalone Run
 
 ```bash
-docker run --rm --name scenario-simulator ghcr.io/autowarefoundation/openadkit:scenario-simulator
+docker run --rm --name scenario-simulator ghcr.io/autowarefoundation/openadkit-tools:scenario-simulator
 ```
 
 ## Settings
