@@ -9,8 +9,8 @@ graph LR
 
     A --> B --> C --> D;
 
-    style A fill:#f9a03f,stroke:#333,stroke-width:2px,color:#fff;
-    style B fill:#3d8bff,stroke:#333,stroke-width:2px,color:#fff;
-    style C fill:#00c4b3,stroke:#333,stroke-width:2px,color:#fff;
-    style D fill:#7b61ff,stroke:#333,stroke-width:2px,color:#fff;
+    style A fill:#0d2c54,stroke:#333,stroke-width:2px,color:#fff;
+    style B fill:#2d6a8b,stroke:#333,stroke-width:2px,color:#fff;
+    style C fill:#3690c0,stroke:#333,stroke-width:2px,color:#fff;
+    style D fill:#673ab7,stroke:#333,stroke-width:2px,color:#fff;
 ```
