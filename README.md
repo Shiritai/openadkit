@@ -62,9 +62,30 @@ Open AD Kit envisions an always connected, complete autonomous driving developme
 
 ![Connected and Continuous](docs/assets/images/connected-continuous.png)
 
+## Roadmap
+
+```mermaid
+graph LR
+    A[STRUCTURE<br/>Define Open AD Kit services and tools]
+    B[MODULARITY<br/>Enable modular Autoware services]
+    C[CONFIGURABILITY<br/>Provide configurable services for use case]
+    D[ORCHESTRATION<br/>Support service orchestration]
+
+    A --> B --> C --> D;
+
+    classDef p1 fill:#0d2c54,stroke:#333,stroke-width:2px,color:#fff,font-weight:bold;
+    classDef p2 fill:#2d6a8b,stroke:#333,stroke-width:2px,color:#fff,font-weight:bold;
+    classDef p3 fill:#3690c0,stroke:#333,stroke-width:2px,color:#fff,font-weight:bold;
+    classDef p4 fill:#673ab7,stroke:#333,stroke-width:2px,color:#fff,font-weight:bold;
+
+    class A p1;
+    class B p2;
+    class C p3;
+    class D p4;
+```
+
 ## Getting Started
 
 - **[Quick start](https://autowarefoundation.github.io/openadkit/Quickstart/)**
 - **[Documentation](https://autowarefoundation.github.io/openadkit/)**
-- **[Roadmap](https://autowarefoundation.github.io/openadkit/Roadmap/)**
 - **[Contributing](https://autowarefoundation.github.io/openadkit/Contributing/)**
