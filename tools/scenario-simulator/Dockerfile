@@ -4,8 +4,8 @@ SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 ARG ROS_DISTRO
 ENV CCACHE_DIR="/root/.ccache"
 
-COPY .build-scripts/resolve_rosdep_keys.sh /autoware/resolve_rosdep_keys.sh
-COPY .build-scripts/build_and_clean.sh /autoware/build_and_clean.sh
+COPY tools/.build-scripts/resolve_rosdep_keys.sh /autoware/resolve_rosdep_keys.sh
+COPY tools/.build-scripts/build_and_clean.sh /autoware/build_and_clean.sh
 RUN chmod +x /autoware/resolve_rosdep_keys.sh
 RUN chmod +x /autoware/build_and_clean.sh
 COPY src/simulator /autoware/src/simulator

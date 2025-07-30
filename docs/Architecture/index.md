@@ -1,1 +1,1 @@
-# Architecture
+# Open AD Kit Architecture

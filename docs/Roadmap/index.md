@@ -1,34 +1,16 @@
 # Roadmap
 
 ```mermaid
----
-config:
-  themeVariables:
-    cScaleLabel0: '#FFFFFF'
-    cScale0: '#f9a03f'
-    cScaleLabel1: '#FFFFFF'
-    cScale1: '#3d8bff'
-    cScaleLabel2: '#FFFFFF'
-    cScale2: '#00c4b3'
-    cScaleLabel3: '#FFFFFF'
-    cScale3: '#7b61ff'
----
+graph LR
+    A[<strong>P1-Structure</strong><br/>Define Open AD Kit services and tools]
+    B[<strong>P2-Modularity</strong><br/>Enable modular Autoware services]
+    C[<strong>P3-Configurability</strong><br/>Provide configurable services for use case]
+    D[<strong>P4-Orchestration</strong><br/>Support service orchestration]
 
-timeline
-    P1-Structure
-      : Visualizer/Simulator containers
-      : Zenoh Bridge/Safety Island Integration
-      : Documentation v1.0
-    P2-Modularity
-      : Build modular containers in OpenADKit (Active)
-      : Launch file validation
-      : Modular Open AD Kit
-    P3-Configurability
-      : Configurable Open AD Kit
-      : Real-Vehicle Integration
-      : Documentation v1.1
-    P4-Orchestration
-      : Enabling Orchestration
-      : Integration AutoSD/Bluechi
-      : OTA Support
+    A --> B --> C --> D;
+
+    style A fill:#f9a03f,stroke:#333,stroke-width:2px,color:#fff;
+    style B fill:#3d8bff,stroke:#333,stroke-width:2px,color:#fff;
+    style C fill:#00c4b3,stroke:#333,stroke-width:2px,color:#fff;
+    style D fill:#7b61ff,stroke:#333,stroke-width:2px,color:#fff;
 ```
