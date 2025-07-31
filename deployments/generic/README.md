@@ -2,5 +2,5 @@
 
 This directory contains generic deployment configurations for Open AD Kit to help you get started.
 
-- [Local Simulation](./local-simulation/README.md): Simulation environment for local deployment.
-- [Remote Simulation](./remote-simulation/README.md): Simulation environment for cloud-edge integration testing.
+- [Monolithic](./monolithic/README.md): Monolithic deployment configuration for Open AD Kit.
+- [Service-Based](./service-based/README.md): Service-based deployment configuration for Open AD Kit.
