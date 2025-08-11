@@ -14,7 +14,7 @@ services:
       rviz:=false
       
   visualizer:
-    image: ghcr.io/autowarefoundation/openadkit-tools:visualizer
+    image: ghcr.io/autowarefoundation/autoware-tools:visualizer
     environment:
       - RMW_IMPLEMENTATION=rmw_cyclonedds_cpp
     ports:
