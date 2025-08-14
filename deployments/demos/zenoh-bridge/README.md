@@ -1,25 +1,25 @@
-# OpenADKit Remote Control Architecture: Implementation Report and User Manual
+# OpenADKit Remote Visualization with Zenoh Bridge: Implementation Report and User Manual
 
 ## 1. Introduction
 
-This document provides a comprehensive implementation guide and technical overview for the distributed architecture of the OpenADKit project. The core objective is to separate compute-intensive and lightweight components of an autonomous driving system, enabling deployment across different hardware. For example, the core Autoware software stack runs on a high-performance cloud server, while simulators and visualization tools operate on a local developer's laptop.
+This document provides a comprehensive implementation guide and technical overview for the distributed architecture of the OpenADKit project. The core objective is to separate compute-intensive and lightweight components of an autonomous driving system, enabling deployment across different hardware. For example, the core Autoware software stack runs on the local side (e.g., vehicle, or a powerful simulation server). Users can remotely visualize and manage Autoware from their laptops or a cloud-based management system.
 
-To achieve this, we utilize [Zenoh](https://zenoh.io/) as a high-performance, low-latency communication protocol, paired with the `zenoh-bridge-ros2dds` tool to seamlessly connect two ROS 2 (Robot Operating System 2) environments isolated by Docker virtual networks. This manual covers architecture design, setup steps, system startup, and troubleshooting, providing complete operational guidance.
+To achieve this, we utilize [Zenoh](https://zenoh.io/) as a high-performance, low-latency communication protocol, paired with the [`zenoh-bridge-ros2dds`](https://github.com/eclipse-zenoh/zenoh-plugin-ros2dds) tool to seamlessly connect two ROS 2 (Robot Operating System 2) environments isolated by Docker virtual networks. This manual covers architecture design, setup steps, system startup, and troubleshooting, providing complete operational guidance.
 
 ## 2. Detailed Architecture Design
 
 ### 2.1. Core Concept: Client-Server Model
 
-The system decouples a previously monolithic architecture into a client-server model:
+The system decouples the previously monolithic architecture into a client-server model:
 
-- **Server Side**: Includes components with high computational demands (especially CPU and GPU).
+- **Vehicle/Server Side**: Includes components with high computational demands (especially CPU and GPU).
   - `autoware`: Core perception, decision-making, and planning modules.
   - `scenario_simulator`: Generates virtual traffic environments, obstacles, and vehicle dynamics, providing simulated sensor data for Autoware.
-  - **Deployment**: Typically on cloud virtual machines (e.g., AWS, GCP) or dedicated lab servers.
+  - **Deployment**: Typically on vehicles or powerful servers.
 
-- **Client Side**: Includes lightweight components critical for user interaction and visualization.
+- **Monitor Side**: Includes lightweight components critical for user interaction and visualization.
   - `visualizer`: Based on RViZ2, encapsulated with noVNC, allowing users to access the visualization interface via any modern web browser without installing ROS 2 or RViZ locally.
-  - **Deployment**: Typically on an engineer's laptop, remote control center, or low-compute device.
+  - **Deployment**: Typically on a user's laptop or a cloud-based management system, where low computational power is sufficient.
 
 ### 2.2. Architecture Diagram
 
@@ -34,10 +34,10 @@ graph TD
     classDef bridge fill:#fffbe6,stroke:#f0ad4e
     classDef invisible stroke:none,fill:none
 
-    %% === Local Client Machine ===
-    subgraph LocalClient[Local Client Machine]
+    %% === Monitor ===
+    subgraph Monitor["Monitor (noVNC)"]
         direction LR
-        class LocalClient machine
+        class Monitor machine
 
         subgraph VisualizerNet[visualizer_net Network]
             direction TB
@@ -52,10 +52,10 @@ graph TD
         end
     end
 
-    %% === Remote Server ===
-    subgraph RemoteServer[Remote Server]
+    %% === Vehicle Server ===
+    subgraph VehicleServer[Vehicle Server]
         direction LR
-        class RemoteServer machine
+        class VehicleServer machine
 
         subgraph AutowareNet[autoware_net Network]
             direction TB
@@ -83,11 +83,11 @@ graph TD
 - **Network Design**:
   - `autoware_net`: An isolated virtual network for `autoware` and `scenario_simulator`, using ROS 2 DDS multicast for low-latency communication.
   - `visualizer_net`: An isolated network for `visualizer`, simulating physical or logical separation from the server.
-  - `zenoh_net`: A dedicated bridge network connecting only `autoware_zenoh_bridge` and `visualizer_zenoh_bridge`, ensuring a clean cross-domain data transmission path.
+  - TCP/IP (use `zenoh_net` docker network in this demo for simplicity): The network that is possible to connect `autoware_zenoh_bridge` and `visualizer_zenoh_bridge`, ensuring a clean cross-domain data transmission path.
 
 - **Communication Core: Zenoh Bridge**:
-  - `autoware_zenoh_bridge`: Acts as a **Router**, scanning ROS 2 topics in `autoware_net`, converting them to Zenoh format, and listening for client connections on TCP/7447 in `zenoh_net`.
-  - `visualizer_zenoh_bridge`: Acts as a **Client**, connecting to `autoware_zenoh_bridge` via `zenoh_net`, receiving Zenoh data, and converting it back to ROS 2 DDS for `visualizer` to subscribe.
+  - `autoware_zenoh_bridge` (`zenoh-bridge-ros2dds` container): Acts as a **Router**, scans ROS 2 topics in `autoware_net`, converts them to Zenoh format, and listens for client connections on TCP/7447 in `zenoh_net`.
+  - `visualizer_zenoh_bridge` (`zenoh-bridge-ros2dds` container): Acts as a **Client**, connecting to `autoware_zenoh_bridge` via `zenoh_net`, receiving Zenoh data, and converting it back to ROS 2 DDS for `visualizer` to subscribe.
   - `config/zenoh-bridge-ros2dds.json5`: A configuration file defining the bridge's mode, listening endpoints, and topic filtering rules, allowing precise control over transmitted data to optimize bandwidth.
 
 ## 3. User Manual
@@ -103,9 +103,9 @@ Ensure the following software is installed:
 ### 3.2. Installation and Setup
 
 1. **Clone the Project**:
-   Run in a terminal:
+   Execute the following commands in a terminal:
    ```bash
-   git clone https://github.com/Shiritai/openadkit
+   git clone https://github.com/autowarefoundation/openadkit
    cd openadkit
    ```
 
