@@ -18,7 +18,7 @@ The system decouples the previously monolithic architecture into a client-server
   - **Deployment**: Typically on vehicles or powerful servers.
 
 - **Monitor Side**: Includes lightweight components critical for user interaction and visualization.
-  - `visualizer`: Based on RViZ2, encapsulated with noVNC, allowing users to access the visualization interface via any modern web browser without installing ROS 2 or RViZ locally.
+  - `visualizer`: Based on RViz2, encapsulated with noVNC, allowing users to access the visualization interface via any modern web browser without installing ROS 2 or RViz locally.
   - **Deployment**: Typically on a user's laptop or a cloud-based management system, where low computational power is sufficient.
 
 ### 2.2. Architecture Diagram
@@ -43,7 +43,7 @@ graph TD
             direction TB
             class VisualizerNet network
             
-            visualizer["**Visualizer**<br><br>Based on RViZ2<br>Provides noVNC Remote Desktop"]
+            visualizer["**Visualizer**<br><br>Based on RViz2<br>Provides noVNC Remote Desktop"]
             visualizer_bridge["**Visualizer Zenoh Bridge**<br><br><u>Role</u>: Client<br>Converts Zenoh ↔️ DDS"]
             class visualizer service
             class visualizer_bridge bridge
@@ -154,7 +154,7 @@ Ensure the following software is installed:
    Use the default password `openadkit`.
 
 3. **Verify Operation**:
-   - The noVNC interface should display RViZ2.
+   - The noVNC interface should display RViz2.
    - If `Global Status` shows `OK` (green), the system is running correctly, showing maps, autonomous vehicle models, and simulated objects.
    - If `Warning` appears, refer to the "Troubleshooting" section.
 
