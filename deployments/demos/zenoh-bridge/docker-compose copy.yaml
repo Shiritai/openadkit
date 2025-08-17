@@ -5,8 +5,15 @@ services:
       - autoware_map:/autoware_map
     environment:
       - RMW_IMPLEMENTATION=rmw_cyclonedds_cpp
+    #   - RUN_MODE=planning-simulator
+    #   - MAP_PATH=/root/autoware_map
+    #   - SENSOR_MODEL=sample_sensor_kit
+    #   - VEHICLE_MODEL=sample_vehicle
+    #   - SCENARIO_SIMULATION=true
     networks:
       - autoware_net
+    # entrypoint: >
+    #   bash -c "echo 'Waiting for other services to start...' && sleep 16 && echo 'Starting service...'  && /entrypoint.sh"
     command: |
       ros2 launch autoware_launch planning_simulator.launch.xml
       map_path:=/autoware_map
@@ -22,10 +29,12 @@ services:
     image: ghcr.io/autowarefoundation/autoware-tools:scenario-simulator
     environment:
       - RMW_IMPLEMENTATION=rmw_cyclonedds_cpp
-    volumes:
-      - autoware_map:/opt/autoware/share/kashiwanoha_map/map
+    # volumes:
+    #   - autoware_map:/opt/autoware/share/kashiwanoha_map/map
     networks:
       - autoware_net
+    # entrypoint: >
+    #   bash -c "echo 'Waiting for other services to start...' && sleep 8 && echo 'Starting service...'  && /entrypoint.sh"
     depends_on:
       - autoware_zenoh_bridge
       - visualizer_zenoh_bridge
@@ -38,6 +47,8 @@ services:
       - "6080:6080"
     networks:
       - visualizer_net
+    # entrypoint: >
+    #   bash -c "echo 'Waiting for other services to start...' && sleep 2 && echo 'Starting service...'  && /entrypoint.sh"
     depends_on:
       - autoware_zenoh_bridge
       - visualizer_zenoh_bridge
